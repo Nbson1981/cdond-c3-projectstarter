@@ -129,7 +129,7 @@ jobs:
           
   configure-infrastructure:
     docker:
-      - image: ansibleshipyard/ansible-base-ubuntu
+      - image: ansible/ubuntu14.04-ansible:stable
     steps:
       - checkout
       - add_ssh_keys:
@@ -204,7 +204,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: ansibleshipyard/ansible-base-ubuntu
+      - image: ansible/ubuntu14.04-ansible:stable
     steps:
       - checkout 
       # Add ssh keys with fingerprint
