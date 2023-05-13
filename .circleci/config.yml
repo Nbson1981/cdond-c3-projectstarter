@@ -143,7 +143,6 @@ jobs:
             # install the dependencies needed for your playbook
             apk add --update ansible 
       - run:
-      - run:
           name: Configure server
           command: |
             cd .circleci/ansible
