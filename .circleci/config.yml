@@ -82,10 +82,10 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - run:
+          name: Run backend scan      
       - restore_cache:
           keys: [backend-build]       
-      - run:
-          name: Run backend scan
           command: |
            cd backend
            npm install
