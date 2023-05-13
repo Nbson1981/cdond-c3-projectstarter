@@ -136,11 +136,11 @@ jobs:
           fingerprints: ["13:e7:11:70:4f:13:d4:70:04:d5:d0:4a:05:e7:cb:84"]
       - attach_workspace:
           at: /home/circleci/workspace      
-      - run:
-          name: Install Ansible
-          command: |
-            # install the dependencies needed for your playbook
-            apk add --update ansible 
+      #- run:
+      #    name: Install Ansible
+      #    command: |
+      #      # install the dependencies needed for your playbook
+      #      apk add --update ansible 
       - run:
           name: Configure server
           command: |
@@ -213,10 +213,10 @@ jobs:
       # attach workspace
       - attach_workspace:
           at: /home/circleci/workspace      
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible 
+      #- run:
+      #    name: Install dependencies
+      #    command: |
+      #      apk add --update ansible 
       - run:
           name: Deploy backend
           command: |
