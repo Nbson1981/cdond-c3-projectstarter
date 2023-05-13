@@ -126,6 +126,11 @@ jobs:
       #    paths:
       #      - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure      
+      - destroy_environment:
+          stack_name: Udapeople-Frontend-$CUR_SHORT_HASH
+      - destroy_environment:
+          stack_name: Udapeople-Backend-$CUR_SHORT_HASH   
+          
   configure-infrastructure:
     docker:
       - image: python:3.7-alpine3.11
@@ -171,7 +176,47 @@ jobs:
               curl https://kvdb.io/9GE4jRtKznmVKRfvdBABBe/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi
      # Here's where you will add some code to rollback on failure     
-     
+      - revert-migrations:
+          migrations-key: migration_$CUR_SHORT_HASH
+          
+  deploy-frontend:
+    docker:
+     - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/workspace
+      - restore_cache:
+          keys: [frontend-build]
+      - run:
+          name: "Install AWS CLI"
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+      - run:
+          name: Get backend url
+          command: |
+            export BACKEND_IP=$(aws ec2 describe-instances...............)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL = ${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            cat frontend/.env
+      - run:
+          name: Deploy frontend objects
+          command: |
+            cd frontend
+            npm install
+            npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      # Here's where you will add some code to rollback on failure   
+      - destroy_environment:
+          stack_name: Udapeople-Frontend-$CUR_SHORT_HASH
+          bucket_name: udapeople-frontend-$CUR_SHORT_HASH
+      - destroy_environment:
+          stack_name: Udapeople-Backend-$CUR_SHORT_HASH
+          
 workflows:
   default:
     jobs:
@@ -191,3 +236,5 @@ workflows:
           requires: [deploy-infrastructure]          
       - run-migrations:
           requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
