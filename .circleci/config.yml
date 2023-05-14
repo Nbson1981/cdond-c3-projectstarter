@@ -1,4 +1,5 @@
 version: 2.1
+
 commands:
   install_awscli:
     description: Install AWS CLI v2
@@ -230,7 +231,7 @@ jobs:
           command: |   
             if grep -q "has been executed successfully." ~/cdond-c3-projectstarter/backend/migrations_dump.txt
             then
-              # If you are using kvdb.io, generate the bucket ID "9GE4jRtKznmVKRfvdBABBe" in your local terminal first
+              # If you are using kvdb.io, generate the bucket ID "TnvPhcWPT2kBy9fnVAG8EM" in your local terminal first
               curl https://kvdb.io/TnvPhcWPT2kBy9fnVAG8EM/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi
      # Here's where you will add some code to rollback on failure     
@@ -239,13 +240,11 @@ jobs:
 
   deploy-frontend:
     docker:
-     - image: circleci/node:13.8.0
+     - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
       - install_nodejs      
-      - attach_workspace:
-          at: /home/circleci/workspace
       - restore_cache:
           keys: [frontend-build]
       - run:
