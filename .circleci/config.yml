@@ -229,7 +229,7 @@ jobs:
       - run:
           name: Send migration results to memstash
           command: |   
-            if grep -q "has been executed successfully." ~/cdond-c3-projectstarter/backend/migrations_dump.txt
+            if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
               # If you are using kvdb.io, generate the bucket ID "TnvPhcWPT2kBy9fnVAG8EM" in your local terminal first
               curl https://kvdb.io/TnvPhcWPT2kBy9fnVAG8EM/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
