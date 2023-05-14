@@ -133,7 +133,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["13:e7:11:70:4f:13:d4:70:04:d5:d0:4a:05:e7:cb:84"]
+          fingerprints: ["70:0a:75:69:59:67:5d:01:0b:4c:11:c0:09:7a:8a:b1"]
       - attach_workspace:
           at: /home/circleci/workspace      
       - run:
@@ -209,7 +209,7 @@ jobs:
       - checkout 
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["13:e7:11:70:4f:13:d4:70:04:d5:d0:4a:05:e7:cb:84"]
+          fingerprints: ["70:0a:75:69:59:67:5d:01:0b:4c:11:c0:09:7a:8a:b1"]
       # attach workspace
       - attach_workspace:
           at: /home/circleci/workspace      
